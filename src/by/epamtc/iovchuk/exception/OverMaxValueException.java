@@ -6,7 +6,7 @@ package by.epamtc.iovchuk.exception;
 
 /**
  * Выбрасываемое исключение, если пользователь указал
- * вместимость корзины больше максимальной
+ * значение больше максимального.
  */
 public class OverMaxValueException extends Exception{
 

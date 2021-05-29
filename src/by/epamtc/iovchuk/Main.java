@@ -4,14 +4,10 @@
 
 package by.epamtc.iovchuk;
 
-import by.epamtc.iovchuk.characteristic.Color;
-import by.epamtc.iovchuk.entity.Ball;
 import by.epamtc.iovchuk.entity.Basket;
-import by.epamtc.iovchuk.exception.BellowOrEqualsZeroException;
-import by.epamtc.iovchuk.exception.NullException;
 import by.epamtc.iovchuk.service.BallsCalculator;
-import by.epamtc.iovchuk.service.creator.BasketCreatorService;
 import by.epamtc.iovchuk.service.BasketFillerService;
+import by.epamtc.iovchuk.service.creator.BasketCreatorService;
 
 /**
  * Создать класс Мяч. Создать класс Корзина.

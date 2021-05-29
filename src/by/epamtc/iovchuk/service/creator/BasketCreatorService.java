@@ -11,14 +11,13 @@ import by.epamtc.iovchuk.exception.OverMaxValueException;
 /**
  * Сервис для создания корзины.
  */
-public class BasketCreatorService extends Creator<Basket>{
+public class BasketCreatorService{
 
     /**
      * Создает корзину с вместимосью по умолчанию 50.
      *
      * @return созданную корзину
      */
-    @Override
     public Basket create() {
         return new Basket();
     }

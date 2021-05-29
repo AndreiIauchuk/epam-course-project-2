@@ -76,6 +76,7 @@ public class Basket {
      * Сеттер списка мячей в корзине.
      */
     public void setBalls(List<Ball> balls) throws NullException, OverMaxValueException {
+
         if (balls == null) {
             throw new NullException("Список мячей");
         }

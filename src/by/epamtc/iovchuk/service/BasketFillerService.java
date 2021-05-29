@@ -6,11 +6,8 @@ package by.epamtc.iovchuk.service;
 
 import by.epamtc.iovchuk.entity.Ball;
 import by.epamtc.iovchuk.entity.Basket;
-import by.epamtc.iovchuk.exception.NullException;
-import by.epamtc.iovchuk.exception.OverMaxValueException;
 import by.epamtc.iovchuk.service.creator.BallCreatorService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +31,7 @@ public class BasketFillerService {
         BallCreatorService ballCreator = new BallCreatorService();
 
         for (int i = 0; i < ballsCount; ++i) {
+
             //Созданный мяч
             Ball ball = ballCreator.create();
 
@@ -41,6 +39,8 @@ public class BasketFillerService {
                 //Добавляет созданный мяч в список
                 balls.add(ball);
             } else {
+                System.out.println
+                        ("Максимальная вместимость корзины " + basket.getCapacity() + "!");
                 return;
             }
 

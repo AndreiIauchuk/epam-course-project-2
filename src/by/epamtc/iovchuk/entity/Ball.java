@@ -6,6 +6,7 @@ package by.epamtc.iovchuk.entity;
 
 import by.epamtc.iovchuk.characteristic.Color;
 import by.epamtc.iovchuk.characteristic.Material;
+import by.epamtc.iovchuk.exception.BellowMinValueException;
 import by.epamtc.iovchuk.exception.BellowOrEqualsZeroException;
 import by.epamtc.iovchuk.exception.OverMaxValueException;
 import by.epamtc.iovchuk.exception.NullException;
@@ -35,6 +36,25 @@ public class Ball {
      */
     private final Material material;
 
+    /**
+     * Минималньый размер мяча.
+     */
+    private static final byte MIN_SIZE = 1;
+
+    /**
+     * Максимальный размер мяча.
+     */
+    private static final byte MAX_SIZE = 5;
+
+    /**
+     * Минималньый размер мяча.
+     */
+    private static final double MIN_WEIGHT = 0.1;
+
+    /**
+     * Максимальный размер мяча.
+     */
+    private static final double MAX_WEIGHT = 3.0;
 
     private Ball(BallBuilder builder) {
         weight = builder.weight;
@@ -58,10 +78,19 @@ public class Ball {
         private Material material = Material.SYNTHETIC;
 
         public BallBuilder(double weight, Color color)
-                throws BellowOrEqualsZeroException, NullException {
+                throws BellowOrEqualsZeroException, NullException,
+                BellowMinValueException, OverMaxValueException {
 
             if (weight <= 0) {
                 throw new BellowOrEqualsZeroException("Вес");
+            }
+
+            if (weight < MIN_WEIGHT) {
+                throw new BellowMinValueException("Вес", MIN_WEIGHT);
+            }
+
+            if (weight > MAX_WEIGHT) {
+                throw new OverMaxValueException("Вес", MAX_WEIGHT);
             }
 
             if (color == null) {
@@ -82,11 +111,11 @@ public class Ball {
         public BallBuilder size(byte size)
                 throws BellowOrEqualsZeroException, OverMaxValueException {
 
-            if (size <= 0) {
+            if (size < MIN_SIZE) {
                 throw new BellowOrEqualsZeroException("Размер мяча");
             }
 
-            if (size > 5) {
+            if (size > MAX_SIZE) {
                 throw new OverMaxValueException("Размер мяча", 5);
             }
 
@@ -160,13 +189,21 @@ public class Ball {
         return material;
     }
 
-    @Override
-    public String toString() {
-        return "Ball{" +
-                "weight=" + weight +
-                ", color=" + color +
-                ", size=" + size +
-                ", material=" + material +
-                '}';
+    /**
+     * Геттер минимального веса мяча.
+     *
+     * @return минимальный вес мяча
+     */
+    public static double getMinWeight() {
+        return MIN_WEIGHT;
+    }
+
+    /**
+     * Геттер максимального веса мяча.
+     *
+     * @return максимальный вес мяча
+     */
+    public static double getMaxWeight() {
+        return MAX_WEIGHT;
     }
 }

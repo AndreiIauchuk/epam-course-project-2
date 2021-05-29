@@ -7,17 +7,14 @@ package by.epamtc.iovchuk.service.creator;
 import by.epamtc.iovchuk.characteristic.Color;
 import by.epamtc.iovchuk.characteristic.Material;
 import by.epamtc.iovchuk.entity.Ball;
-import by.epamtc.iovchuk.exception.BellowOrEqualsZeroException;
-import by.epamtc.iovchuk.exception.MaxLessThanMinException;
-import by.epamtc.iovchuk.exception.NullException;
-import by.epamtc.iovchuk.exception.OverMaxValueException;
+import by.epamtc.iovchuk.exception.*;
 
 import java.util.Random;
 
 /**
  * Сервис для создания мяча со случайными параметрами.
  */
-public class BallCreatorService extends Creator<Ball>{
+public class BallCreatorService {
 
     private final Random random = new Random();
 
@@ -26,17 +23,10 @@ public class BallCreatorService extends Creator<Ball>{
      *
      * @return мяч со случайными параметрами
      */
-    @Override
     public Ball create() {
 
         //Вес создаваемого мяча
-        double ballWeight = 0;
-
-        try {
-            ballWeight = getRandomWeight(0.1, 5.0);
-        } catch (BellowOrEqualsZeroException | MaxLessThanMinException e) {
-            e.printStackTrace();
-        }
+        double ballWeight = getRandomWeight();
 
         //Цвет создаваемого мяча
         Color ballColor = getRandomColor();
@@ -47,7 +37,8 @@ public class BallCreatorService extends Creator<Ball>{
 
         try {
             ballBuilder = new Ball.BallBuilder(ballWeight, ballColor);
-        } catch (BellowOrEqualsZeroException | NullException e) {
+        } catch (BellowOrEqualsZeroException | NullException
+                | BellowMinValueException | OverMaxValueException e) {
             e.printStackTrace();
         }
 
@@ -81,26 +72,12 @@ public class BallCreatorService extends Creator<Ball>{
     /**
      * Возвращает случайный вес в указанном диапазоне.
      *
-     * @param minWeight минимальный вес
-     * @param maxWeight максимальный вес
      * @return случайный вес мяча
      */
-    private double getRandomWeight(double minWeight, double maxWeight)
-            throws BellowOrEqualsZeroException, MaxLessThanMinException {
+    private double getRandomWeight() {
 
-        if (minWeight <= 0 || maxWeight <= 0) {
-            throw new BellowOrEqualsZeroException("Вес");
-        }
-
-        if(maxWeight < minWeight) {
-            throw new MaxLessThanMinException("Вес");
-        }
-
-        if (maxWeight == minWeight) {
-            return minWeight;
-        }
-
-        return minWeight + random.nextDouble() * (maxWeight - minWeight);
+        return Ball.getMinWeight() + random.nextDouble()
+                * (Ball.getMaxWeight() - Ball.getMinWeight());
     }
 
     /**
