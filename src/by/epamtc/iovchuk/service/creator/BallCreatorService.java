@@ -33,7 +33,7 @@ public class BallCreatorService extends Creator<Ball>{
         double ballWeight = 0;
 
         try {
-            ballWeight = getRandomWeight(0.1, 3.0);
+            ballWeight = getRandomWeight(0.1, 5.0);
         } catch (BellowOrEqualsZeroException | MaxLessThanMinException e) {
             e.printStackTrace();
         }

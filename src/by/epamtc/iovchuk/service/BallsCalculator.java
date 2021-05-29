@@ -50,6 +50,8 @@ public class BallsCalculator {
         //Список мячей в указанной корзине
         List<Ball> ballsInBasket = basket.getBalls();
 
+        int i = 0;
+
         /*
          * Проходит по списку мячей в корзине
          * и вычисляет количество синих мячей
@@ -58,6 +60,7 @@ public class BallsCalculator {
             if (ball.getColor() == Color.BLUE) {
                 ++blueBallsCount;
             }
+            i++;
         }
 
         return blueBallsCount;

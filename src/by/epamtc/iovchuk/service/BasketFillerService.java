@@ -37,10 +37,7 @@ public class BasketFillerService {
             //Созданный мяч
             Ball ball = ballCreator.create();
 
-            System.out.println("ball = " + ball);
-
-            if (basket.getCapacity() > i + 1) {
-                System.out.println(i);
+            if (basket.getCapacity() > i) {
                 //Добавляет созданный мяч в список
                 balls.add(ball);
             } else {

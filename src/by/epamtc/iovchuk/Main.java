@@ -4,7 +4,11 @@
 
 package by.epamtc.iovchuk;
 
+import by.epamtc.iovchuk.characteristic.Color;
+import by.epamtc.iovchuk.entity.Ball;
 import by.epamtc.iovchuk.entity.Basket;
+import by.epamtc.iovchuk.exception.BellowOrEqualsZeroException;
+import by.epamtc.iovchuk.exception.NullException;
 import by.epamtc.iovchuk.service.BallsCalculator;
 import by.epamtc.iovchuk.service.creator.BasketCreatorService;
 import by.epamtc.iovchuk.service.BasketFillerService;
@@ -38,12 +42,8 @@ public class Main {
         //Созданная корзина
         Basket basket = basketCreatorService.create();
 
-        System.out.println("basket = " + basket);
-
         //Заполняет созданную корзину пятьюстами мячиков
         basketFillerService.fill(basket, 500);
-
-        System.out.println(basket.getBalls());
 
         //Вес всех мячей в корзине
         double ballsWeight = ballsCalculator.calcWeight(basket);
