@@ -5,7 +5,11 @@
 package by.epamtc.iovchuk.service;
 
 import by.epamtc.iovchuk.characteristic.Color;
+import by.epamtc.iovchuk.characteristic.Material;
 import by.epamtc.iovchuk.entity.Ball;
+import by.epamtc.iovchuk.exception.BellowOrEqualsZeroException;
+import by.epamtc.iovchuk.exception.MaxLessThanMinException;
+import by.epamtc.iovchuk.exception.NullException;
 
 import java.util.Random;
 
@@ -14,17 +18,61 @@ import java.util.Random;
  */
 public class BallCreatorService {
 
-    Random random = new Random();
+    private final Random random = new Random();
 
     /**
-     * Созданиет мяч со случайными параметрами.
+     * Создает мяч со случайными параметрами.
      *
      * @return мяч со случайными параметрами
      */
     public Ball create() {
 
-        double ballWeight = getRandomWeight(0.1, 3.0);
-        Ball ball = new Ball.BallBuilder(1.0, Color.BLUE).size(3).build();
+        //Вес создаваемого мяча
+        double ballWeight = 0;
+
+        try {
+            ballWeight = getRandomWeight(0.1, 3.0);
+        } catch (BellowOrEqualsZeroException | MaxLessThanMinException e) {
+            e.printStackTrace();
+        }
+        //Цвет создаваемого мяча
+        Color ballColor = getRandomColor();
+
+        //Строитель создаваемого мяча
+        Ball.BallBuilder ballBuilder =
+                null;
+
+        try {
+            ballBuilder = new Ball.BallBuilder(ballWeight, ballColor);
+        } catch (BellowOrEqualsZeroException | NullException e) {
+            e.printStackTrace();
+        }
+
+        //Требуется ли изменять размер по умолчанию для создаваемого мяча
+        if (random.nextBoolean()) {
+            //Размер создаваемого мяча
+            byte ballSize = getRandomSize();
+
+            try {
+                ballBuilder.size(ballSize);
+            } catch (BellowOrEqualsZeroException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Требуется ли изменять материал по умолчанию для создаваемого мяча
+        if (random.nextBoolean()) {
+            //Материал создаваемого мяча
+            Material ballMaterial = getRandomMaterial();
+
+            try {
+                ballBuilder.material(ballMaterial);
+            } catch (NullException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return ballBuilder.build();
     }
 
     /**
@@ -34,7 +82,21 @@ public class BallCreatorService {
      * @param maxWeight максимальный вес
      * @return случайный вес мяча
      */
-    private double getRandomWeight(double minWeight, double maxWeight) {
+    private double getRandomWeight(double minWeight, double maxWeight)
+            throws BellowOrEqualsZeroException, MaxLessThanMinException {
+
+        if (minWeight <= 0 || maxWeight <= 0) {
+            throw new BellowOrEqualsZeroException("Вес");
+        }
+
+        if(maxWeight < minWeight) {
+            throw new MaxLessThanMinException("Вес");
+        }
+
+        if (maxWeight == minWeight) {
+            return minWeight;
+        }
+
         return minWeight + random.nextDouble() * (maxWeight - minWeight);
     }
 
@@ -55,9 +117,10 @@ public class BallCreatorService {
     /**
      * Возвращает случайный размер мяча.
      *
-     * @return
+     * @return случайный размер мяча
      */
     private byte getRandomSize() {
+
         /*
          * Т.к. метод nextInt(int bound) класса Random возвращает
          * случайное целое число в диапазоне 0 ≤ x < n,
@@ -65,10 +128,21 @@ public class BallCreatorService {
          * вычисляет случайное целое число в диапазоне 0 ≤ x < 5
          * и добавляет к полученному результату единицу
          */
-
         return (byte) (random.nextInt(5) + 1);
-
     }
 
+    /**
+     * Возвращает случайный материал мяча.
+     *
+     * @return случайный материал мяча
+     */
+    private Material getRandomMaterial() {
+
+        Material[] materials = Material.values();
+
+        int materialsCount = materials.length;
+
+        return materials[random.nextInt(materialsCount)];
+    }
 
 }
