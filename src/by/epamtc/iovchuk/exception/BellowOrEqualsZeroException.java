@@ -14,11 +14,6 @@ public class BellowOrEqualsZeroException extends Exception {
         super();
     }
 
-    /**
-     * Создает исключение для указанного параметра объекта.
-     *
-     * @param parameter параметр объекта
-     */
     public BellowOrEqualsZeroException(String parameter) {
         super(parameter + " не может быть меньше или равен нулю!");
     }

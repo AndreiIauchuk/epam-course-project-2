@@ -7,13 +7,14 @@ package by.epamtc.iovchuk.service;
 import by.epamtc.iovchuk.entity.Ball;
 import by.epamtc.iovchuk.entity.Basket;
 import by.epamtc.iovchuk.exception.NullException;
+import by.epamtc.iovchuk.exception.OverMaxValueException;
+import by.epamtc.iovchuk.service.creator.BallCreatorService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
- * Сервис для заполнения корзины мячами со случайными параметрами.
+ * Сервис для создания корзин и заполнения ее мячами со случайными параметрами.
  */
 public class BasketFillerService {
 
@@ -27,7 +28,7 @@ public class BasketFillerService {
     public void fill(Basket basket, int ballsCount) {
 
         //Список мячей для добавления в корзину
-        List<Ball> balls = new ArrayList<>();
+        List<Ball> balls = basket.getBalls();
 
         //Сервис для создания мяча со случайными параметрами
         BallCreatorService ballCreator = new BallCreatorService();
@@ -36,13 +37,17 @@ public class BasketFillerService {
             //Созданный мяч
             Ball ball = ballCreator.create();
 
-            balls.add(ball);
+            System.out.println("ball = " + ball);
+
+            if (basket.getCapacity() > i + 1) {
+                System.out.println(i);
+                //Добавляет созданный мяч в список
+                balls.add(ball);
+            } else {
+                return;
+            }
+
         }
 
-        try {
-            basket.setBalls(balls);
-        } catch (NullException e) {
-            e.printStackTrace();
-        }
     }
 }

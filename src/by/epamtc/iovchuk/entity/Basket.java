@@ -4,10 +4,11 @@
 
 package by.epamtc.iovchuk.entity;
 
-import by.epamtc.iovchuk.exception.MaxValueException;
+import by.epamtc.iovchuk.exception.OverMaxValueException;
 import by.epamtc.iovchuk.exception.BellowOrEqualsZeroException;
 import by.epamtc.iovchuk.exception.NullException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class Basket {
      * Количество мячей не превышает вместимость {@code capacity}.
      * </p>
      */
-    private List<Ball> balls;
+    private List<Ball> balls = new ArrayList<>();
 
     /**
      * Вместимость корзины.
@@ -34,7 +35,7 @@ public class Basket {
     private final static byte MAX_CAPACITY = 100;
 
     /**
-     * Создает корзину с вместимосью по умолчанию 50.
+     * Создает корзину с вместимостью по умолчанию 50.
      */
     public Basket() {
         capacity = 50;
@@ -45,16 +46,18 @@ public class Basket {
      *
      * @throws BellowOrEqualsZeroException если указанная вместимостисть
      *                                     меньше или равна нулю
+     * @throws OverMaxValueException       если указанная вместимостисть
+     *                                     больше максимальной
      */
     public Basket(byte capacity)
-            throws BellowOrEqualsZeroException, MaxValueException {
+            throws BellowOrEqualsZeroException, OverMaxValueException {
 
         if (capacity <= 0) {
             throw new BellowOrEqualsZeroException("Вместимость корзины");
         }
 
         if (capacity > MAX_CAPACITY) {
-            throw new MaxValueException();
+            throw new OverMaxValueException("Вместимость корзины", MAX_CAPACITY);
         }
 
         this.capacity = capacity;
@@ -72,9 +75,13 @@ public class Basket {
     /**
      * Сеттер списка мячей в корзине.
      */
-    public void setBalls(List<Ball> balls) throws NullException {
+    public void setBalls(List<Ball> balls) throws NullException, OverMaxValueException {
         if (balls == null) {
             throw new NullException("Список мячей");
+        }
+
+        if (balls.size() > capacity) {
+            throw new OverMaxValueException("Количество мячей в корзине", capacity);
         }
 
         this.balls = balls;

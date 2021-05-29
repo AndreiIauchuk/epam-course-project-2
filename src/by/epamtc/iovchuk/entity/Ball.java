@@ -7,6 +7,7 @@ package by.epamtc.iovchuk.entity;
 import by.epamtc.iovchuk.characteristic.Color;
 import by.epamtc.iovchuk.characteristic.Material;
 import by.epamtc.iovchuk.exception.BellowOrEqualsZeroException;
+import by.epamtc.iovchuk.exception.OverMaxValueException;
 import by.epamtc.iovchuk.exception.NullException;
 
 /**
@@ -78,16 +79,15 @@ public class Ball {
          * @return ссылку на объект, вызвавший данный метод
          * @throws BellowOrEqualsZeroException если указан размер меньший или равный нулю
          */
-        public BallBuilder size(byte size) throws BellowOrEqualsZeroException {
+        public BallBuilder size(byte size)
+                throws BellowOrEqualsZeroException, OverMaxValueException {
 
             if (size <= 0) {
-                throw new BellowOrEqualsZeroException
-                        ("Размер мяча");
+                throw new BellowOrEqualsZeroException("Размер мяча");
             }
 
             if (size > 5) {
-                throw new BellowOrEqualsZeroException
-                        ("Размер мяча не может превышать пяти!");
+                throw new OverMaxValueException("Размер мяча", 5);
             }
 
             this.size = size;
@@ -160,4 +160,13 @@ public class Ball {
         return material;
     }
 
+    @Override
+    public String toString() {
+        return "Ball{" +
+                "weight=" + weight +
+                ", color=" + color +
+                ", size=" + size +
+                ", material=" + material +
+                '}';
+    }
 }

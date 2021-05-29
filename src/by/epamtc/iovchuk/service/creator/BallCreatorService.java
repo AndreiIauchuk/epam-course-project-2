@@ -2,7 +2,7 @@
  * Copyright (c) 2021. All rights reserved.
  */
 
-package by.epamtc.iovchuk.service;
+package by.epamtc.iovchuk.service.creator;
 
 import by.epamtc.iovchuk.characteristic.Color;
 import by.epamtc.iovchuk.characteristic.Material;
@@ -10,13 +10,14 @@ import by.epamtc.iovchuk.entity.Ball;
 import by.epamtc.iovchuk.exception.BellowOrEqualsZeroException;
 import by.epamtc.iovchuk.exception.MaxLessThanMinException;
 import by.epamtc.iovchuk.exception.NullException;
+import by.epamtc.iovchuk.exception.OverMaxValueException;
 
 import java.util.Random;
 
 /**
  * Сервис для создания мяча со случайными параметрами.
  */
-public class BallCreatorService {
+public class BallCreatorService extends Creator<Ball>{
 
     private final Random random = new Random();
 
@@ -25,6 +26,7 @@ public class BallCreatorService {
      *
      * @return мяч со случайными параметрами
      */
+    @Override
     public Ball create() {
 
         //Вес создаваемого мяча
@@ -35,6 +37,7 @@ public class BallCreatorService {
         } catch (BellowOrEqualsZeroException | MaxLessThanMinException e) {
             e.printStackTrace();
         }
+
         //Цвет создаваемого мяча
         Color ballColor = getRandomColor();
 
@@ -55,7 +58,7 @@ public class BallCreatorService {
 
             try {
                 ballBuilder.size(ballSize);
-            } catch (BellowOrEqualsZeroException e) {
+            } catch (BellowOrEqualsZeroException | OverMaxValueException e) {
                 e.printStackTrace();
             }
         }

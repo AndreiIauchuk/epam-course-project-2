@@ -4,6 +4,10 @@
 
 package by.epamtc.iovchuk.exception;
 
+/**
+ * Выбрасываемое исключение, если пользователь указал
+ * ссылку на null.
+ */
 public class NullException extends Exception{
 
     public NullException() {
