@@ -6,7 +6,7 @@ package by.epamtc.iovchuk.service;
 
 import by.epamtc.iovchuk.entity.Ball;
 import by.epamtc.iovchuk.entity.Basket;
-import by.epamtc.iovchuk.service.creator.BallCreatorService;
+import by.epamtc.iovchuk.service.creator.RandomBallCreatorService;
 
 import java.util.List;
 
@@ -28,12 +28,12 @@ public class BasketFillerService {
         List<Ball> balls = basket.getBalls();
 
         //Сервис для создания мяча со случайными параметрами
-        BallCreatorService ballCreator = new BallCreatorService();
+        RandomBallCreatorService randomBallCreator = new RandomBallCreatorService();
 
         for (int i = 0; i < ballsCount; ++i) {
 
             //Созданный мяч
-            Ball ball = ballCreator.create();
+            Ball ball = randomBallCreator.create();
 
             if (basket.getCapacity() > i) {
                 //Добавляет созданный мяч в список

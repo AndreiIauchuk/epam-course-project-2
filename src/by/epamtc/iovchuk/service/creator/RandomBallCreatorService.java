@@ -14,7 +14,7 @@ import java.util.Random;
 /**
  * Сервис для создания мяча со случайными параметрами.
  */
-public class BallCreatorService {
+public class RandomBallCreatorService {
 
     private final Random random = new Random();
 
@@ -32,8 +32,7 @@ public class BallCreatorService {
         Color ballColor = getRandomColor();
 
         //Строитель создаваемого мяча
-        Ball.BallBuilder ballBuilder =
-                null;
+        Ball.BallBuilder ballBuilder = null;
 
         try {
             ballBuilder = new Ball.BallBuilder(ballWeight, ballColor);
