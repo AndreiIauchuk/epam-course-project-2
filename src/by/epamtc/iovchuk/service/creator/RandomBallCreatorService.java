@@ -19,7 +19,12 @@ public class RandomBallCreatorService {
     private final Random random = new Random();
 
     /**
-     * Создает мяч со случайными параметрами.
+     * Строитель мяча.
+     */
+    private Ball.BallBuilder ballBuilder;
+
+    /**
+     * Создает и возвращает мяч со случайными параметрами.
      *
      * @return мяч со случайными параметрами
      */
@@ -31,39 +36,20 @@ public class RandomBallCreatorService {
         //Цвет создаваемого мяча
         Color ballColor = getRandomColor();
 
-        //Строитель создаваемого мяча
-        Ball.BallBuilder ballBuilder = null;
+        //Создает нового строителя мяча
+        createBallBuilder(ballWeight, ballColor);
 
-        try {
-            ballBuilder = new Ball.BallBuilder(ballWeight, ballColor);
-        } catch (BellowOrEqualsZeroException | NullException
-                | BellowMinValueException | OverMaxValueException e) {
-            e.printStackTrace();
-        }
+        /*
+         * C вероятностью 50% изменяет размер по умолчанию
+         * для создаваемого мяча на случайный
+         */
+        randomlyChangeDefaultSize();
 
-        //Требуется ли изменять размер по умолчанию для создаваемого мяча
-        if (random.nextBoolean()) {
-            //Размер создаваемого мяча
-            byte ballSize = getRandomSize();
-
-            try {
-                ballBuilder.size(ballSize);
-            } catch (BellowOrEqualsZeroException | OverMaxValueException e) {
-                e.printStackTrace();
-            }
-        }
-
-        //Требуется ли изменять материал по умолчанию для создаваемого мяча
-        if (random.nextBoolean()) {
-            //Материал создаваемого мяча
-            Material ballMaterial = getRandomMaterial();
-
-            try {
-                ballBuilder.material(ballMaterial);
-            } catch (NullException e) {
-                e.printStackTrace();
-            }
-        }
+        /*
+         * C вероятностью 50% изменяет материал по умолчанию
+         * для создаваемого мяча на случайный
+         */
+        randomlyChangeDefaultMaterial();
 
         return ballBuilder.build();
     }
@@ -92,6 +78,56 @@ public class RandomBallCreatorService {
 
         return colors[random.nextInt(colorsCount)];
     }
+
+    /**
+     * Создает нового строителя мяча.
+     *
+     * @param ballWeight вес создаваемого мяча
+     * @param ballColor  цвет оздаваемого мяча
+     */
+    private void createBallBuilder(double ballWeight, Color ballColor) {
+        try {
+            ballBuilder = new Ball.BallBuilder(ballWeight, ballColor);
+        } catch (BellowOrEqualsZeroException | NullException
+                | BellowMinValueException | OverMaxValueException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * С вероятностью 50% изменяет размер по умолчанию
+     * для создаваемого мяча на случайный.
+     */
+    private void randomlyChangeDefaultSize() {
+        if (random.nextBoolean()) {
+            //Размер создаваемого мяча
+            byte ballSize = getRandomSize();
+
+            try {
+                ballBuilder.size(ballSize);
+            } catch (BellowOrEqualsZeroException | OverMaxValueException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * С вероятностью 50% изменяет материал по умолчанию
+     * для создаваемого мяча на случайный.
+     */
+    private void randomlyChangeDefaultMaterial() {
+        if (random.nextBoolean()) {
+            //Материал создаваемого мяча
+            Material ballMaterial = getRandomMaterial();
+
+            try {
+                ballBuilder.material(ballMaterial);
+            } catch (NullException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     /**
      * Возвращает случайный размер мяча.

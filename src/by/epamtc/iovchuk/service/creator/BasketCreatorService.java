@@ -14,7 +14,7 @@ import by.epamtc.iovchuk.exception.OverMaxValueException;
 public class BasketCreatorService{
 
     /**
-     * Создает корзину с вместимосью по умолчанию 50.
+     * Создает и возвращает корзину с вместимосью по умолчанию 50.
      *
      * @return созданную корзину
      */
@@ -23,7 +23,7 @@ public class BasketCreatorService{
     }
 
     /**
-     * Создает корзину с указанной вместимосью.
+     * Создает и возвращает корзину с указанной вместимосью.
      */
     public Basket create(byte capacity) {
 
