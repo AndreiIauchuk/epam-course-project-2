@@ -4,10 +4,15 @@
 
 package by.epamtc.iovchuk;
 
+import by.epamtc.iovchuk.creator.BallsCreator;
+import by.epamtc.iovchuk.entity.Ball;
 import by.epamtc.iovchuk.entity.Basket;
-import by.epamtc.iovchuk.service.BallsCalculator;
-import by.epamtc.iovchuk.service.BasketFillerService;
-import by.epamtc.iovchuk.service.creator.BasketCreatorService;
+import by.epamtc.iovchuk.exception.NullException;
+import by.epamtc.iovchuk.service.BallWeightCalculator;
+import by.epamtc.iovchuk.service.BasketFiller;
+import by.epamtc.iovchuk.service.BlueBallsCountCalculator;
+
+import java.util.List;
 
 /**
  * Создать класс Мяч. Создать класс Корзина.
@@ -23,29 +28,38 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //Сервис для создания мяча со случайными параметрами
-        BasketCreatorService basketCreatorService = new BasketCreatorService();
+        //Класс-создатель списка мячей
+        BallsCreator ballsCreator = new BallsCreator();
 
-        //Сервис заполнения корзины мячами со случайными параметрами
-        BasketFillerService basketFillerService = new BasketFillerService();
+        //Сервис для заполнения корзины
+        BasketFiller basketFiller = new BasketFiller();
 
-        /*
-         * Сервис для расчета веса мячей
-         * и количество синих мячиков в корзине
-         */
-        BallsCalculator ballsCalculator = new BallsCalculator();
+        //Сервис для расчета веса мячей в корзине
+        BallWeightCalculator ballWeightCalculator =
+                new BallWeightCalculator();
 
-        //Созданная корзина
-        Basket basket = basketCreatorService.create();
+        //Сервис для расчетаи количества синих мячей в корзине
+        BlueBallsCountCalculator blueBallsCountCalculator =
+                new BlueBallsCountCalculator();
 
-        //Заполняет созданную корзину пятьюстами мячиков
-        basketFillerService.fill(basket, 500);
+        Basket basket = new Basket((byte) 40);
+
+        //Созданный классом-создателем список мячей
+        List<Ball> createdBalls = ballsCreator.createBalls();
 
         //Вес всех мячей в корзине
-        double ballsWeight = ballsCalculator.calcWeight(basket);
+        double ballsWeight = 0;
 
         //Количество синих мячей в корзине
-        int blueBallsCount = ballsCalculator.calcBlueBallsCount(basket);
+        int blueBallsCount = 0;
+
+        try {
+            basketFiller.fill(basket, createdBalls);
+            ballsWeight = ballWeightCalculator.calculate(basket);
+            blueBallsCount = blueBallsCountCalculator.calculate(basket);
+        } catch (NullException e) {
+            e.printStackTrace();
+        }
 
         System.out.println("Общий вес мячиков в корзине = "
                 + ballsWeight);

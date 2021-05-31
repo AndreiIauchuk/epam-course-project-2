@@ -47,14 +47,14 @@ public class Ball {
     private static final byte MAX_SIZE = 5;
 
     /**
-     * Минималньый размер мяча.
+     * Минималньый вес мяча.
      */
-    private static final double MIN_WEIGHT = 0.1;
+    private static final double MIN_WEIGHT = 1;
 
     /**
-     * Максимальный размер мяча.
+     * Максимальный вес мяча.
      */
-    private static final double MAX_WEIGHT = 3.0;
+    private static final double MAX_WEIGHT = 100.0;
 
     private Ball(BallBuilder builder) {
         weight = builder.weight;
@@ -78,8 +78,8 @@ public class Ball {
         private Material material = Material.SYNTHETIC;
 
         public BallBuilder(double weight, Color color)
-                throws BellowOrEqualsZeroException, NullException,
-                BellowMinValueException, OverMaxValueException {
+                throws BellowOrEqualsZeroException, BellowMinValueException,
+                OverMaxValueException {
 
             if (weight <= 0) {
                 throw new BellowOrEqualsZeroException("Вес");
@@ -93,33 +93,32 @@ public class Ball {
                 throw new OverMaxValueException("Вес", MAX_WEIGHT);
             }
 
-            if (color == null) {
-                throw new NullException("Цвет ");
-            }
-
             this.weight = weight;
             this.color = color;
         }
 
         /**
          * Устанавливает указанный размер для создаваемого мяча.
+         * Если
          *
          * @param size размер создаваемого мяча
          * @return ссылку на объект, вызвавший данный метод
-         * @throws BellowOrEqualsZeroException если указан размер меньший или равный нулю
+         * @throws BellowMinValueException если указан размер меньше минимального
+         * @throws OverMaxValueException   если указан размер больше максимального
          */
         public BallBuilder size(byte size)
-                throws BellowOrEqualsZeroException, OverMaxValueException {
+                throws OverMaxValueException, BellowMinValueException {
 
             if (size < MIN_SIZE) {
-                throw new BellowOrEqualsZeroException("Размер мяча");
+                throw new BellowMinValueException("Размер мяча", MIN_SIZE);
             }
 
             if (size > MAX_SIZE) {
-                throw new OverMaxValueException("Размер мяча", 5);
+                throw new OverMaxValueException("Размер мяча", MAX_SIZE);
             }
 
             this.size = size;
+
 
             return this;
         }
@@ -130,14 +129,11 @@ public class Ball {
          * @param material материал создаваемого мяча
          * @return ссылку на объект, вызвавший данный метод
          */
-        public BallBuilder material(Material material) throws NullException {
+        public BallBuilder material(Material material) {
 
-            if (material == null) {
-                throw new NullException("Материал");
-
+            if (material != null) {
+                this.material = material;
             }
-
-            this.material = material;
 
             return this;
         }
@@ -205,5 +201,26 @@ public class Ball {
      */
     public static double getMaxWeight() {
         return MAX_WEIGHT;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ball ball = (Ball) o;
+        return ball.weight == weight &&
+                ball.size == size &&
+                ball.color == color &&
+                ball.material == material;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 5;
+        hashCode = 31 * hashCode + (int) weight;
+        hashCode = 31 * hashCode + (color == null ? 0 : color.hashCode());
+        hashCode = 31 * hashCode + size;
+        hashCode = 31 * hashCode + (material == null ? 0 : material.hashCode());
+        return hashCode;
     }
 }
