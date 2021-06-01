@@ -183,24 +183,6 @@ public class Ball {
         return material;
     }
 
-    /**
-     * Геттер минимального веса мяча.
-     *
-     * @return минимальный вес мяча
-     */
-    public static double getMinWeight() {
-        return MIN_WEIGHT;
-    }
-
-    /**
-     * Геттер максимального веса мяча.
-     *
-     * @return максимальный вес мяча
-     */
-    public static double getMaxWeight() {
-        return MAX_WEIGHT;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
