@@ -76,6 +76,15 @@ public class Ball {
         //Материал, из которого изготовлен
         private Material material = Material.SYNTHETIC;
 
+        /**
+         * Создает строителя мяча с указанным весом и цветом.
+         *
+         * @param weight вес создаваемого мяча
+         * @param color  цвет создаваемого мяча
+         * @throws BellowOrEqualsZeroException если указан вес меньше или равный нулю
+         * @throws BellowMinValueException если указан вес меньше минимального
+         * @throws OverMaxValueException если указан вес больше максимального
+         */
         public BallBuilder(double weight, Color color)
                 throws BellowOrEqualsZeroException, BellowMinValueException,
                 OverMaxValueException {
