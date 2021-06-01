@@ -42,7 +42,7 @@ public class Main {
         BlueBallsCountCalculator blueBallsCountCalculator =
                 new BlueBallsCountCalculator();
 
-        Basket basket = new Basket((byte) 40);
+        Basket basket = new Basket();
 
         //Созданный классом-создателем список мячей
         List<Ball> createdBalls = ballsCreator.createBalls();

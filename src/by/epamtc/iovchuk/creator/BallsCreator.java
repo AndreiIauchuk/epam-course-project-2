@@ -9,7 +9,6 @@ import by.epamtc.iovchuk.characteristic.Material;
 import by.epamtc.iovchuk.entity.Ball;
 import by.epamtc.iovchuk.exception.BellowMinValueException;
 import by.epamtc.iovchuk.exception.BellowOrEqualsZeroException;
-import by.epamtc.iovchuk.exception.NullException;
 import by.epamtc.iovchuk.exception.OverMaxValueException;
 
 import java.util.ArrayList;
@@ -21,9 +20,9 @@ import java.util.List;
 public class BallsCreator {
 
     /**
-     * Создает и возвращает список мячей.
+     * Создает мячи и возвращает список, заполненный этими мячами.
      *
-     * @return список мячей
+     * @return список созданных мячей
      */
     public List<Ball> createBalls() {
 

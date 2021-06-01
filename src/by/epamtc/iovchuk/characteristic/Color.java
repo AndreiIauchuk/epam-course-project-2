@@ -18,5 +18,5 @@ public enum Color {
     PURPLE, //Фиолетовый
     YELLOW, //Желтый
     PINK, //Розовый
-    BROWN; //Коричневый
+    BROWN //Коричневый
 }

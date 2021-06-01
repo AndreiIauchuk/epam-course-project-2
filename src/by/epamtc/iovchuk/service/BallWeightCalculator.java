@@ -4,13 +4,11 @@
 
 package by.epamtc.iovchuk.service;
 
-import by.epamtc.iovchuk.characteristic.Color;
 import by.epamtc.iovchuk.entity.Ball;
 import by.epamtc.iovchuk.entity.Basket;
 import by.epamtc.iovchuk.exception.NullException;
 
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Сервис для расчета веса мячей в корзине.

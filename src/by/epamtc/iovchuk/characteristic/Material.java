@@ -10,5 +10,5 @@ package by.epamtc.iovchuk.characteristic;
  */
 public enum  Material {
     LEATHER, //Кожа
-    SYNTHETIC; //Синтетика
+    SYNTHETIC //Синтетика
 }

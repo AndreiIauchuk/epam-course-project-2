@@ -5,8 +5,6 @@
 package by.epamtc.iovchuk.entity;
 
 import by.epamtc.iovchuk.exception.OverCapacityException;
-import by.epamtc.iovchuk.exception.OverMaxValueException;
-import by.epamtc.iovchuk.exception.BellowOrEqualsZeroException;
 import by.epamtc.iovchuk.exception.NullException;
 
 import java.io.Serializable;
@@ -27,7 +25,7 @@ public class Basket implements Serializable {
      * Количество мячей не превышает вместимость {@code capacity}.
      * </p>
      */
-    private List<Ball> balls = new ArrayList<>();
+    private final List<Ball> balls = new ArrayList<>();
 
     /**
      * Вместимость корзины.
@@ -103,8 +101,7 @@ public class Basket implements Serializable {
     public int hashCode() {
         int hashCode = 5;
         hashCode = 31 * hashCode + (int) capacity;
-        hashCode = 31 * hashCode
-                + ((balls == null || balls.isEmpty()) ? 0 : balls.hashCode());
+        hashCode = 31 * hashCode + (balls.isEmpty() ? 0 : balls.hashCode());
         return hashCode;
     }
 

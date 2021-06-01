@@ -12,7 +12,7 @@ import by.epamtc.iovchuk.exception.OverCapacityException;
 import java.util.List;
 
 /**
- * Сервис для заполнения корзины.
+ * Сервис для заполнения корзины мячами.
  */
 public class BasketFiller {
 
@@ -28,7 +28,8 @@ public class BasketFiller {
      * @param ballsToFill список мячей для добавления в корзину
      * @throws NullException если указана ссылка на null
      */
-    public void fill(Basket basket, List<Ball> ballsToFill) throws NullException{
+    public void fill(Basket basket, List<Ball> ballsToFill)
+            throws NullException{
 
         if (basket == null) {
             throw new NullException("Корзина");

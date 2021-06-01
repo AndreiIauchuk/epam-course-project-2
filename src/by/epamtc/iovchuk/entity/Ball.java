@@ -9,7 +9,6 @@ import by.epamtc.iovchuk.characteristic.Material;
 import by.epamtc.iovchuk.exception.BellowMinValueException;
 import by.epamtc.iovchuk.exception.BellowOrEqualsZeroException;
 import by.epamtc.iovchuk.exception.OverMaxValueException;
-import by.epamtc.iovchuk.exception.NullException;
 
 /**
  * Класс, характеризующий мяч.
@@ -99,7 +98,6 @@ public class Ball {
 
         /**
          * Устанавливает указанный размер для создаваемого мяча.
-         * Если
          *
          * @param size размер создаваемого мяча
          * @return ссылку на объект, вызвавший данный метод
