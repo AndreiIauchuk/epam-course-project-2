@@ -5,6 +5,7 @@
 package by.epamtc.iovchuk.service;
 
 import by.epamtc.iovchuk.characteristic.Color;
+import by.epamtc.iovchuk.characteristic.Material;
 import by.epamtc.iovchuk.entity.Ball;
 import by.epamtc.iovchuk.entity.Basket;
 import by.epamtc.iovchuk.exception.NullException;
@@ -22,12 +23,13 @@ public class BlueBallsCountCalculator {
      *
      * @param basket корзина, для которой производится
      *               расчет количества синих мячей
-     * @return количество синих мячей в корзине
+     * @return количество синих мячей в корзине,
+     * либо -1, если ссылочная переменная имеет значение null
      */
-    public int calculate(Basket basket) throws NullException {
+    public int calculate(Basket basket) {
 
         if (basket == null) {
-            throw new NullException("Корзина");
+            return -1;
         }
 
         //Количество синих мячей в указанной корзине

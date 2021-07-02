@@ -13,19 +13,20 @@ import java.util.Iterator;
 /**
  * Сервис для расчета веса мячей в корзине.
  */
-public class BallWeightCalculator {
+public class BallsWeightCalculator {
 
     /**
      * Вычисляет вес всех мячей в указанной корзине.
      *
      * @param basket корзина, для которой
      *               производится расчет веса
-     * @return вес всех мячей в корзине
+     * @return вес всех мячей в корзине,
+     * либо -1, если ссылочная переменная имеет значение null
      */
-    public double calculate(Basket basket) throws NullException {
+    public double calculate(Basket basket) {
 
         if (basket == null) {
-            throw new NullException("Корзина");
+            return -1;
         }
 
         //Вес всех мячей в указанной корзине

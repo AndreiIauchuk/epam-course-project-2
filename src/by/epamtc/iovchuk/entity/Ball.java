@@ -6,9 +6,8 @@ package by.epamtc.iovchuk.entity;
 
 import by.epamtc.iovchuk.characteristic.Color;
 import by.epamtc.iovchuk.characteristic.Material;
-import by.epamtc.iovchuk.exception.BellowMinValueException;
-import by.epamtc.iovchuk.exception.BellowOrEqualsZeroException;
-import by.epamtc.iovchuk.exception.OverMaxValueException;
+import by.epamtc.iovchuk.validator.BallValidator;
+
 
 /**
  * Класс, характеризующий мяч.
@@ -18,12 +17,12 @@ public class Ball {
     /**
      * Вес мяча.
      */
-    private final double weight;
+    private double weight;
 
     /**
      * Цвет мяча.
      */
-    private final Color color;
+    private Color color;
 
     /**
      * Размер мяча.
@@ -34,26 +33,6 @@ public class Ball {
      * Материал, из которого изготовлен мяч.
      */
     private final Material material;
-
-    /**
-     * Минималньый размер мяча.
-     */
-    private static final byte MIN_SIZE = 1;
-
-    /**
-     * Максимальный размер мяча.
-     */
-    private static final byte MAX_SIZE = 5;
-
-    /**
-     * Минималньый вес мяча.
-     */
-    private static final double MIN_WEIGHT = 1;
-
-    /**
-     * Максимальный вес мяча.
-     */
-    private static final double MAX_WEIGHT = 100.0;
 
     private Ball(BallBuilder builder) {
         weight = builder.weight;
@@ -66,43 +45,43 @@ public class Ball {
      * Класс-строитель мяча.
      */
     public static class BallBuilder {
+        private final static double DEFAULT_WEIGHT = 2;
+        private final static Color DEFAULT_COLOR = Color.RED;
+        private final static byte DEFAULT_SIZE = 4;
+        private final static Material DEFAULT_MATERIAL = Material.SYNTHETIC;
 
         //Вес создаваемого мяча
         private final double weight;
         //Цвет создаваемого мяча
         private final Color color;
         //Размер создаваемого мяча
-        private byte size = 4;
+        private byte size;
         //Материал, из которого изготовлен
-        private Material material = Material.SYNTHETIC;
+        private Material material;
+
+        private final BallValidator ballValidator = new BallValidator();
 
         /**
          * Создает строителя мяча с указанным весом и цветом.
          *
          * @param weight вес создаваемого мяча
          * @param color  цвет создаваемого мяча
-         * @throws BellowOrEqualsZeroException если указан вес меньше или равный нулю
-         * @throws BellowMinValueException если указан вес меньше минимального
-         * @throws OverMaxValueException если указан вес больше максимального
          */
-        public BallBuilder(double weight, Color color)
-                throws BellowOrEqualsZeroException, BellowMinValueException,
-                OverMaxValueException {
-
-            if (weight <= 0) {
-                throw new BellowOrEqualsZeroException("Вес");
+        public BallBuilder(double weight, Color color) {
+            if (ballValidator.validateWeight(weight)) {
+                this.weight = weight;
+            } else {
+                this.weight = DEFAULT_WEIGHT;
             }
 
-            if (weight < MIN_WEIGHT) {
-                throw new BellowMinValueException("Вес", MIN_WEIGHT);
+            if (ballValidator.validateColor(color)) {
+                this.color = color;
+            } else {
+                this.color = DEFAULT_COLOR;
             }
 
-            if (weight > MAX_WEIGHT) {
-                throw new OverMaxValueException("Вес", MAX_WEIGHT);
-            }
-
-            this.weight = weight;
-            this.color = color;
+            size = DEFAULT_SIZE;
+            material = DEFAULT_MATERIAL;
         }
 
         /**
@@ -110,22 +89,11 @@ public class Ball {
          *
          * @param size размер создаваемого мяча
          * @return ссылку на объект, вызвавший данный метод
-         * @throws BellowMinValueException если указан размер меньше минимального
-         * @throws OverMaxValueException   если указан размер больше максимального
          */
-        public BallBuilder size(byte size)
-                throws OverMaxValueException, BellowMinValueException {
-
-            if (size < MIN_SIZE) {
-                throw new BellowMinValueException("Размер мяча", MIN_SIZE);
+        public BallBuilder size(byte size) {
+            if (ballValidator.validateSize(size)) {
+                this.size = size;
             }
-
-            if (size > MAX_SIZE) {
-                throw new OverMaxValueException("Размер мяча", MAX_SIZE);
-            }
-
-            this.size = size;
-
 
             return this;
         }
@@ -137,8 +105,7 @@ public class Ball {
          * @return ссылку на объект, вызвавший данный метод
          */
         public BallBuilder material(Material material) {
-
-            if (material != null) {
+            if (ballValidator.validateMaterial(material)) {
                 this.material = material;
             }
 
@@ -156,38 +123,26 @@ public class Ball {
 
     }
 
-    /**
-     * Геттер веса мяча.
-     *
-     * @return вес мяча
-     */
     public double getWeight() {
         return weight;
     }
 
-    /**
-     * Геттер цвета мяча.
-     *
-     * @return цвет мяча
-     */
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
     public Color getColor() {
         return color;
     }
 
-    /**
-     * Геттер размера мяча.
-     *
-     * @return цвет мяча
-     */
+    public void setColor(Color color) {
+        this.color =  color;
+    }
+
     public int getSize() {
         return size;
     }
 
-    /**
-     * Геттер материала мяча.
-     *
-     * @return цвет мяча
-     */
     public Material getMaterial() {
         return material;
     }

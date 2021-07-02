@@ -4,11 +4,8 @@
 
 package by.epamtc.iovchuk.exception;
 
-/**
- * Выбрасываемое исключение, если пользователь пытается
- * добавить мяч в заполненную корзину.
- */
-public class OverCapacityException extends Exception{
+public class OverCapacityException extends Exception {
+
     public OverCapacityException() {
         super();
     }
